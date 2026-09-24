@@ -1,0 +1,14 @@
+{
+  "name": "apebind-language-zoo-demo",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "janet-ape": "file:../packages/janet-ape-0.1.0.tgz",
+    "java-ape": "file:../packages/java-ape-0.1.0.tgz",
+    "lua-ape": "file:../packages/lua-ape-0.1.0.tgz",
+    "php-ape": "file:../packages/php-ape-0.1.0.tgz",
+    "python-ape": "file:../packages/python-ape-0.1.0.tgz",
+    "ruby-ape": "file:../packages/ruby-ape-0.1.0.tgz",
+    "tcl-ape": "file:../packages/tcl-ape-0.1.0.tgz"
+  }
+}
