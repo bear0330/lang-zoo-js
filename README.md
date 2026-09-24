@@ -1,37 +1,10 @@
 # LangZoo.js
 
-Portable polyglot runtimes for Node.js. Each package is a generated, dependency-free JavaScript binding made with [APEBind](https://github.com/nuwainfo/apebind) that carries its language runtime as an [Actually Portable Executable](https://github.com/jart/cosmopolitan).
+**Run seven programming languages from Node.js without installing their runtimes.**
 
-The repository slug and npm package names use lowercase kebab-case. `LangZoo.js` is the display name for this collection; install and import the individual packages below.
+LangZoo.js is a small demo of [APEBind](https://github.com/nuwainfo/apebind): seven generated JavaScript packages that bundle their own language runtimes as [Actually Portable Executables (APEs)](https://github.com/jart/cosmopolitan). No separate Janet, Java, Lua, PHP, Python, Ruby, or Tcl installation is needed to run the demo.
 
-The reviewed YAML schemas and the standalone runtime examples live in [APEBind's language examples](https://github.com/nuwainfo/apebind/tree/master/examples/languages). LangZoo keeps only the generated package archives and its combined demo.
-
-| Runtime | npm package | Generated API |
-|---|---|---|
-| Janet | `janet-ape` | `run({ code })` |
-| Java | `java-ape` | `run({ classPath, mainClass })` |
-| Lua | `lua-ape` | `run({ code })` |
-| PHP | `php-ape` | `run({ code })` |
-| Python | `python-ape` | `run({ code })` |
-| Ruby | `ruby-ape` | `run({ code })` |
-| Tcl | `tcl-ape` | `run({ file })` |
-
-Java's bundled APE is a runtime, not a compiler. Compile application classes during your build, then pass their class path and main class to `java-ape`.
-
-For example:
-
-```js
-import { run as runRuby } from 'ruby-ape';
-
-const result = await runRuby({ code: 'puts 6 * 7' });
-console.log(result.stdout.trim()); // 42
-```
-
-The checked-in package archives are local artifacts for the demo. After publishing, install an individual runtime in the usual way, such as `npm install ruby-ape`.
-
-## Run the zoo
-
-Try all seven with:
+## Try all seven
 
 ```bash
 cd demo
@@ -39,7 +12,7 @@ npm install --ignore-scripts --no-audit --no-fund
 node run-all.mjs
 ```
 
-Expected result:
+Expected output:
 
 ```text
 {
@@ -53,4 +26,39 @@ Expected result:
 }
 ```
 
-No Janet, Java, Lua, PHP, Python, Ruby, or Tcl installation is required by the demo; each npm package carries its own runtime APE.
+Each language runs through its own bundled runtime. The JavaScript packages are bindings to those runtimes, **not reimplementations of the languages in JavaScript**.
+
+## What calling a runtime looks like
+
+```js
+import { run as runPython } from 'python-ape';
+
+const result = await runPython({ code: 'print(6 * 7)', isolated: true });
+console.log(result.stdout.trim()); // 42
+```
+
+The demo installs the **checked-in local package archives**, so you can run it without waiting for the packages to be published to the npm registry. Once an individual package is published, it can be installed in the usual way (for example, `npm install python-ape`).
+
+## The seven packages
+
+| Runtime | Package | Generated API |
+|---|---|---|
+| Janet | `janet-ape` | `run({ code })` |
+| Java | `java-ape` | `run({ classPath, mainClass })` |
+| Lua | `lua-ape` | `run({ code })` |
+| PHP | `php-ape` | `run({ code })` |
+| Python | `python-ape` | `run({ code })` |
+| Ruby | `ruby-ape` | `run({ code })` |
+| Tcl | `tcl-ape` | `run({ file })` |
+
+Java's bundled APE is a **runtime, not a compiler**: compile your application classes as part of your build, then pass their class path and main class to `java-ape`. The Tcl demo executes a script file rather than inline code.
+
+## What this demonstrates
+
+[APEBind](https://github.com/nuwainfo/apebind) generates JavaScript bindings for portable command-line programs. LangZoo.js uses it to package seven different language runtimes behind familiar Node.js APIs, with each package carrying the executable it invokes.
+
+The reviewed YAML schemas and standalone runtime examples live in [APEBind's language examples](https://github.com/nuwainfo/apebind/tree/master/examples/languages). This repository contains the generated package archives and the combined seven-language demo.
+
+**Scope:** This is a packaging and binding demo, not a sandbox for untrusted code or a promise that every third-party language package is bundled. Platform compatibility depends on the bundled runtime and target environment.
+
+`LangZoo.js` is the collection's display name; the repository slug and individual npm package names use lowercase kebab-case.
